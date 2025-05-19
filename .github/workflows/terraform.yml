@@ -32,7 +32,7 @@ jobs:
       working-directory: Child/Resource_Group
 
     - name: Terraform Format
-      run: terraform fmt -check
+      run: terraform fmt -recursive    # terraform fmt -check
       working-directory: Child/Resource_Group
 
     - name: Terraform Plan
