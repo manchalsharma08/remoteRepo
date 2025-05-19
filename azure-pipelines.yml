@@ -1,0 +1,15 @@
+trigger: none
+
+pool: defaulf
+
+stages:
+- stage: infraStagebuild
+  displayName: "Infra ki Stage Bana Rahe hai"
+  jobs:
+  - job: infraJobBuil
+    displayName: "infra ki job"
+    steps:
+     - task: TerraformInstaller@1
+       inputs:
+         terraformVersion: 'latest'
+     
