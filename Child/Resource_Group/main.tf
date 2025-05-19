@@ -1,8 +1,7 @@
-provider "azurerm" {
-    features {}
-}
+
 
 resource "azurerm_resource_group" "example" {
-    name     = "example-rg"
-    location = "East US"
+    for_each = var.name_rg
+    name     = each.value.name
+    location = each.value.location
 }
