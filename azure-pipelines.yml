@@ -1,6 +1,6 @@
 trigger: none
 
-pool: defaulf
+pool: Default
 
 stages:
 - stage: infraStagebuild
