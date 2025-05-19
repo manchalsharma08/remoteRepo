@@ -1,42 +1,48 @@
 trigger:
-- main
+  branches:
+    include:
+      - main
+  paths:
+    include:
+      - Child/
 
-pool: Default
+pool:
+  vmImage: 'ubuntu-latest'  # Optional: Use Microsoft-hosted agent if not self-hosted
 
 stages:
-- stage: infraStagebuild
+- stage: infraStageBuild
   displayName: "Infra ki Stage Bana Rahe hai"
   jobs:
-  - job: infraJobBuil
-    displayName: "infra ki job"
+  - job: infraJobBuild
+    displayName: "Infra ki Job"
     steps:
-     - task: TerraformInstaller@1
-       inputs:
-         terraformVersion: 'latest'
-     - task: TerraformTask@5
-       inputs:
-         provider: 'azurerm'
-         command: 'init'
-         workingDirectory: '$(System.DefaultWorkingDirectory)/Child/Resource_group'
-         backendServiceArm: 'AbhiSC'
-         backendAzureRmOverrideSubscriptionID: 'd2df2a41-202d-4062-831a-7223cf0df18f'
-         backendAzureRmResourceGroupName: 'kal-rg'
-         backendAzureRmStorageAccountName: 'akakjhkjg76785876'
-         backendAzureRmContainerName: 'abhicont'
-         backendAzureRmKey: 'ram.terraform.tfstate'
-     
-     - task: TerraformTask@5
-       inputs:
-         provider: 'azurerm'
-         command: 'plan'
-         workingDirectory: '$(System.DefaultWorkingDirectory)/Child/Resource_group'
-         environmentServiceNameAzureRM: 'AbhiSC'
-         environmentAzureRmOverrideSubscriptionID: 'd2df2a41-202d-4062-831a-7223cf0df18f'
-     - task: TerraformTask@5
-       inputs:
-         provider: 'azurerm'
-         command: 'apply'
-         workingDirectory: '$(System.DefaultWorkingDirectory)/Child/Resource_Group'
-         commandOptions: '--auto-approve'
-         environmentServiceNameAzureRM: 'AbhiSC'
-         environmentAzureRmOverrideSubscriptionID: 'd2df2a41-202d-4062-831a-7223cf0df18f'
+    - task: TerraformInstaller@1
+      inputs:
+        terraformVersion: 'latest'
+
+    - task: TerraformTaskV5@5
+      inputs:
+        provider: 'azurerm'
+        command: 'init'
+        workingDirectory: '$(System.DefaultWorkingDirectory)/Child/Resource_Group'
+        backendServiceArm: 'AbhiSC'
+        backendAzureRmOverrideSubscriptionID: 'd2df2a41-202d-4062-831a-7223cf0df18f'
+        backendAzureRmResourceGroupName: 'kal-rg'
+        backendAzureRmStorageAccountName: 'akakjhkjg76785876'
+        backendAzureRmContainerName: 'abhicont'
+        backendAzureRmKey: 'ram.terraform.tfstate'
+
+    - task: TerraformTaskV5@5
+      inputs:
+        provider: 'azurerm'
+        command: 'plan'
+        workingDirectory: '$(System.DefaultWorkingDirectory)/Child/Resource_Group'
+        environmentServiceNameAzureRM: 'AbhiSC'
+
+    - task: TerraformTaskV5@5
+      inputs:
+        provider: 'azurerm'
+        command: 'apply'
+        workingDirectory: '$(System.DefaultWorkingDirectory)/Child/Resource_Group'
+        commandOptions: '--auto-approve'
+        environmentServiceNameAzureRM: 'AbhiSC'
